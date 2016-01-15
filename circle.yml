@@ -1,0 +1,38 @@
+machine:
+  environment:
+    PATH: $HOME/.terraform:$PATH
+    TERRAFORM_VERSION: 0.6.9
+dependencies:
+  cache_directories:
+    - ~/.terraform
+  pre:
+    - |
+      mkdir -p $HOME/.terraform
+      if [ -z "$(ls -A $HOME/.terraform)" ]; then
+        cd $HOME/.terraform
+        wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+        unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+        rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+      fi
+test:
+  pre:
+    - |
+      # terraform remote config -backend=S3 -backend-config="bucket=example-terraform-state" -backend-config="key=terraform.tfstate"
+      # terraform remote pull
+      which terraform
+      terraform -v
+  override:
+    - |
+      # terraform plan
+  post:
+    - |
+      # terraform remote push
+# deployment:
+#   production:
+#     branch: master
+#     commands:
+#       - |
+#         terraform remote config -backend=S3 -backend-config="bucket=example-terraform-state" -backend-config="key=terraform.tfstate"
+#         terraform remote pull
+#         terraform apply
+#         terraform remote push
