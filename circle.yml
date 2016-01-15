@@ -31,7 +31,7 @@ test:
     - |
       cd terraform/aws/evaluation/
       printenv
-      # terraform plan
+      terraform plan
   post:
     - |
       # terraform remote push
