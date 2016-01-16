@@ -34,12 +34,12 @@ test:
   post:
     - |
       # terraform remote push
-# deployment:
-#   production:
-#     branch: master
-#     commands:
-#       - |
-#         terraform remote config -backend=S3 -backend-config="bucket=example-terraform-state" -backend-config="key=terraform.tfstate"
-#         terraform remote pull
-#         terraform apply
-#         terraform remote push
+deployment:
+  production:
+    branch: ikemonn
+    commands:
+      - |
+        terraform remote config -backend=S3 -backend-config="bucket=example-terraform-state" -backend-config="key=terraform.tfstate"
+        terraform remote pull
+        terraform apply
+        terraform remote push
